@@ -1,0 +1,18 @@
+title Single Page App Form Submission
+
+note over browser:
+user enters form data
+and clicks submit
+end note
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+note over server:
+new note as JSON-data containing 
+both the content of the note and
+the timestamp
+end note
+
+server-->browser: 201 status code
+note over browser:
+Javascript code renders
+new item list
+end note
