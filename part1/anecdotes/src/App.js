@@ -22,6 +22,16 @@ const Votes = ({selected, points}) => {
   )
 }
 
+const Header = ({title}) => {
+  return (
+    <h1>
+      {title}
+    </h1>
+  )
+}
+
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -35,6 +45,8 @@ const App = () => {
    
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState({0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0});
+  const [mostSelected, setMostSelected] = useState(0);
+
   
   const handleRandom = () => {
     const rand = Math.floor(Math.random() * anecdotes.length);
@@ -45,14 +57,28 @@ const App = () => {
     const copy = {...points};
     copy[selected] += 1;
     setPoints(copy);
+
+    let max = 0;
+    let index = 0;
+    for (let i=0; i < anecdotes.length; i++){
+      if (copy[i] > max){
+        max = copy[i];
+        index = i;
+      }
+    }
+    setMostSelected(index);
   }
 
   return (
     <div>
+      <Header title={"Ancedote of the day"} />
       <Anecdote anecdotes={anecdotes} selected={selected} />
+      <Votes points={points} selected={selected} />
       <Button text="Next anecdote" handleClick={handleRandom} />
       <Button text="vote" handleClick={handlePoints} />
-      <Votes points={points} selected={selected} />
+      <Header title={"Ancedote with the most votes"} />
+      <Anecdote anecdotes={anecdotes} selected={mostSelected} />
+      <Votes selected={mostSelected} points={points} />
     </div>
   )
 }
