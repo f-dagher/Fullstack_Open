@@ -11,19 +11,32 @@ const App = () => {
 
   //Function for form to add person 
   const addPerson = (event) => {
-    event.preventDefault()
+    event.preventDefault();
+    /*
+      Create a new Array of person names to compare only the names
+      Since persons is an object array
+    */
+    const names = persons.map(person => person.name);
     const nameObject = {
       name: newName
     }
 
-    setPersons(persons.concat(nameObject))
-    setNewName('')
+    //check to see if name is added only add person if name is unique
+    if (names.includes(newName)){
+      alert(`${newName} is already added to phonebook`)
+    }
+    else {
+      setPersons(persons.concat(nameObject))
+      setNewName('')
+    }  
   }
 
   //Handle adding person to form
   const handleAddPerson = (event) => {
     setNewName(event.target.value);
   }
+  
+ 
 
   return (
     <div>
