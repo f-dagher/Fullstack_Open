@@ -26,7 +26,7 @@ const Display = ( {countries, newFilter, handleShow} ) => {
      return (
        <div>      
          {countriesToShow.map(countries => 
-         <FoundCountry key={countries.name.common} country={countries}/>
+         <FoundCountry key={countries.name.common} country={countries} />
        )}
        </div>
      )

@@ -2,20 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-axios
-  .get('https://restcountries.com/v3.1/all')
-  .then(response => {
-    const countries = response.data
+
     root.render(
       <React.StrictMode>
-        <App countries={countries}/>
+        <App />
       </React.StrictMode>
     );
-  })
+  
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

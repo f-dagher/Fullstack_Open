@@ -40,12 +40,14 @@ function App() {
     setShow(country);
   }  
 
+
   return (
     <div>
       <Filter filter={newFilter} filterFunction ={handleFilter} />
-      <Display newFilter={newFilter} countries={countries} handleShow={handleShow} />
+      <Display newFilter={newFilter} countries={countries} handleShow={handleShow}/>
+      
       {countryToShow.map(countries => 
-         <FoundCountry key={countries.name.common} country={countries} />
+         <FoundCountry key={countries.name.common} country={countries}/>
        )}
       
     </div>
