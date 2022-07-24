@@ -14,10 +14,9 @@ const Display = ( {countries, newFilter, handleShow} ) => {
     }
     else if (countriesToShow.length <= 9 && countriesToShow.length > 1) {
      return (
-       countriesToShow.map((countries, i) => 
+       countriesToShow.map((countries) => 
         <div key={countries.name.common}>
-          <Country country={countries} />
-          <button onClick={() => handleShow([countries])}> show </button>
+          <Country country={countries} handleShow={handleShow}/>
         </div>
        )
      )
@@ -25,9 +24,9 @@ const Display = ( {countries, newFilter, handleShow} ) => {
     }
     else if (countriesToShow.length ===  1){
      return (
-       <div>
+       <div>      
          {countriesToShow.map(countries => 
-         <FoundCountry key={countries.name.common} country={countries} />
+         <FoundCountry key={countries.name.common} country={countries}/>
        )}
        </div>
      )

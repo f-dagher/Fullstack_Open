@@ -9,7 +9,7 @@ import FoundCountry from './components/FoundCountry';
 function App() {
   const [countries, setCountries] = useState([]); //Store countries from API
   const [newFilter, setNewFilter] = useState('');
-  const [show, setShow] = useState ([]);
+  const [show, setShow] = useState ([]); //Store the country clicked by the button
 
   //Get countries from API Database
   useEffect(() => {
@@ -20,12 +20,22 @@ function App() {
       })
   }, [])
 
-  const totalCountries = countries.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()));
+  //Country to show when the button is clicked
   const countryToShow = show.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()));
+  //Total amount of counties used to determine logic below
+  const totalCountires = countries.filter(country => country.name.common.toLowerCase().includes(newFilter.toLowerCase()));
+
+  //If the user finds the country by searching 
+  //OR changes their mind and wants to find another country,
+  //reset show
   const handleFilter = (event) => {
     setNewFilter(event.target.value);
+    if (totalCountires.length === 1 || totalCountires.length === 250) {
+      setShow([]);
+    }
   }
   
+  //Set  show (which is filtered by countryToShow), to the country clicked by the button
   const handleShow = (country) => {
     setShow(country);
   }  
@@ -41,5 +51,4 @@ function App() {
     </div>
   )
 }
-
 export default App;
