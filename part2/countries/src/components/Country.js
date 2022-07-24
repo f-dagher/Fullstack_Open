@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Country = ( {country} ) => {
+const Country = ( {country, setCountry} ) => {
     return (
-      <div> {country.name.common} </div>
+      <> 
+        {country.name.common}
+      </>
     )
   }
 
