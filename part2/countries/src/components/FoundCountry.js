@@ -1,5 +1,5 @@
 import React from 'react';
-import WeatherData from '../WeatherData';
+import WeatherData from './WeatherData';
 
 const FoundCountry = ( {country} ) => {
     return (
