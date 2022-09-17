@@ -17,10 +17,14 @@ const WeatherData = ( {country} ) => {
 
     return (
         <div>
+          {weather.main ? (
+            <div>
             <h1> Weather in {country.capital} </h1>
             <p> Temperature: {weather.main.temp} Celcius</p>
             <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
             <p> Wind: {weather.wind.speed} m/s</p>
+            </div>
+          ) : null}
         </div>
     )
 }
