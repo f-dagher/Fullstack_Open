@@ -13,6 +13,16 @@ const App = () => {
   const [newFilter, setNewFilter] =useState('')
 
 
+
+  /*get persons data from server
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])*/
+
   useEffect(() => {
     personsService
       .getAll()
@@ -38,18 +48,11 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     }
     else {
-
-      personsService
-      .create(personObject)
-      .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson));
-        setNewName('');
-        setNewNumber('');
-      })      
+      setPersons(persons.concat(personObject));
+      setNewName('');
+      setNewNumber('');
     }  
   }
-
- 
 
   //Handle adding a name to form
   const handleAddName = (event) => {
