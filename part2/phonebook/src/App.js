@@ -10,7 +10,7 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [newFilter, setNewFilter] =useState('')
+  const [newFilter, setNewFilter] = useState('')
 
 
   useEffect(() => {
@@ -19,6 +19,9 @@ const App = () => {
       .then(initialPersons => {
         setPersons(initialPersons)
       })
+      .catch(error => {
+        console.log("Failed")
+      }) 
   }, [])
 
 
@@ -38,18 +41,33 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
     }
     else {
-
       personsService
       .create(personObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewNumber('');
+      })
+      .catch(error => {
+        console.log("Failed")
       })      
     }  
   }
 
- 
+  const removePerson = id => {
+    const person = persons.find(p => p.id === id)
+    if(window.confirm(`Are you sure you want to delete '${person.name}'?`))
+    {    personsService
+        .remove(id)
+        .then(updatedPersons => {
+          //setPersons(persons.map(person => person.id !== id ? person : updatedPersons))
+          setPersons(persons.filter(p => p.id !== id))
+        })
+        .catch(error => {
+          console.log("Failed")
+        }) 
+    }
+  }
 
   //Handle adding a name to form
   const handleAddName = (event) => {
@@ -82,7 +100,11 @@ const App = () => {
       />
       <h2>Numbers</h2>
       {personsToShow.map(persons => 
-          <Person key={persons.name} person={persons} />
+          <Person 
+            key={persons.name} 
+            person={persons}
+            removePerson={() => removePerson(persons.id)}
+            />
         )}
     </div>
   )
