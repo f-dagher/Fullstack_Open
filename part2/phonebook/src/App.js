@@ -31,14 +31,25 @@ const App = () => {
   
     //Create a new Array of person names to compare only the names
     const names = persons.map(person => person.name.toLowerCase());
+    const numbers = persons.map(person => person.number.replace(/\s+/g, ''));
     const personObject = {
       name: newName,
       number: newNumber
     }
 
-    //check to see if name is added only add person if name is unique including lowercase
-    if (names.includes(newName.toLowerCase())){
-      alert(`${newName} is already added to phonebook`);
+    //checks to see if number is in the phonebook
+    if(numbers.includes(newNumber.replace(/\s+/g, ''))){
+      alert(`the number '${newNumber}' is already assigned to someone in the phonebook`)
+    }
+    //checks to see if a name has been entered
+    else if(newName===""){
+      alert("Please enter a name")
+    }
+    //check to see if name is in the phonebook(case insensitive). Then calls on updatePerson to confirm if 
+    //user wants to update the phonebook to the new number
+    else if (names.includes(newName.toLowerCase())){
+      const person = persons.find(p => p.name.toLowerCase() === newName.toLowerCase())
+      updatePerson(person.id)
     }
     else {
       personsService
@@ -54,19 +65,45 @@ const App = () => {
     }  
   }
 
+  //remove person from database
   const removePerson = id => {
     const person = persons.find(p => p.id === id)
     if(window.confirm(`Are you sure you want to delete '${person.name}'?`))
-    {    personsService
+    {    
+      personsService
         .remove(id)
-        .then(updatedPersons => {
-          //setPersons(persons.map(person => person.id !== id ? person : updatedPersons))
+        .then(() => {
           setPersons(persons.filter(p => p.id !== id))
         })
         .catch(error => {
           console.log("Failed")
         }) 
     }
+  }
+
+
+  //change the number of the person with confirmation
+  const updatePerson = id => {
+    const person = persons.find(p => p.id === id)
+    const changedPersons = { ...person, number: newNumber }
+  
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`))
+      {
+        console.log(person)
+        personsService
+        .update(id, changedPersons)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+          setNewName('');
+          setNewNumber('');
+        })
+        .catch(error => {
+          alert(
+            `the person '${newName}' was already deleted from server`
+          )
+          setPersons(persons.filter(p => p.id !== id))
+        })
+      }
   }
 
   //Handle adding a name to form
@@ -109,14 +146,5 @@ const App = () => {
     </div>
   )
 }
-
-/*
-const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
-*/
 
 export default App
