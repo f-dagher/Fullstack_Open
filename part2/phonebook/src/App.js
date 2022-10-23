@@ -4,6 +4,7 @@ import Person from './components/Person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personsService from './services/persons'
+import Notification from './components/Notification'
 
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
 
   useEffect(() => {
@@ -58,6 +60,10 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewNumber('');
+        setMessage( `Added ${newName}`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
       .catch(error => {
         console.log("Failed")
@@ -73,6 +79,10 @@ const App = () => {
       personsService
         .remove(id)
         .then(() => {
+          setMessage( `Removed ${person.name}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
           setPersons(persons.filter(p => p.id !== id))
         })
         .catch(error => {
@@ -96,6 +106,10 @@ const App = () => {
           setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
           setNewName('');
           setNewNumber('');
+          setMessage(`Changed ${newName}'s phone number`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
         .catch(error => {
           alert(
@@ -125,6 +139,7 @@ const App = () => {
   
   return (
     <div>
+      <Notification message={message} />
       <h2>Phonebook</h2>
       <Filter filter={newFilter} filterFunction ={handleFilter} />
       <h2>add a new</h2>
