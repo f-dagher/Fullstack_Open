@@ -21,14 +21,9 @@
       "id": 4
     },
     {
-      "name": "new Name",
-      "number": "432234",
+      "name": "new person",
+      "number": "123123",
       "id": 5
-    },
-    {
-      "name": "John Snow",
-      "number": "555-123-5321",
-      "id": 6
     }
   ]
 }
