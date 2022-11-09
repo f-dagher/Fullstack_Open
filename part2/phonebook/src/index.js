@@ -7,7 +7,7 @@ import axios from 'axios';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 axios
-  .get('http://localhost:3001/api/persons')
+  .get('/api/persons')
   .then(response => {
     const persons = response.data
     root.render(
