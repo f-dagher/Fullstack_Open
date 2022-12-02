@@ -27,6 +27,20 @@ const App = () => {
       }) 
   }, [])
 
+  
+  //Handle adding a name to form
+  const handleAddName = (event) => {
+    setNewName(event.target.value);
+  }
+  
+  //Handle adding new number to person
+  const handleAddNumber = (event) => {
+    setNewNumber(event.target.value);
+  }
+
+  const handleFilter = (event) => {
+    setNewFilter(event.target.value);
+  }
 
   //Function for form to add person 
   const addPerson = (event) => {
@@ -69,9 +83,8 @@ const App = () => {
       })
       .catch(error => {
         setMsgStyle('fail')
-        setMessage(
-          `Information of ${newName} has been already added to the server`
-        )
+        console.log(error.response.data.error)
+        setMessage(error.response.data.error)
         setTimeout(() => {
           setMsgStyle('fail')
           setMessage(null)
@@ -123,8 +136,6 @@ const App = () => {
         .update(id, changedPersons)
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
-          setNewName('');
-          setNewNumber('');
           setMsgStyle('sucess');
           setMessage(`Changed ${newName}'s phone number`)
           setTimeout(() => {
@@ -133,30 +144,17 @@ const App = () => {
         })
         .catch(error => {
           setMsgStyle('fail')
-          setMessage(
-            `Information of ${newName} has been already removed from server`
-          )
+          console.log(error.response.data.error)
+          setMessage(error.response.data.error)
           setTimeout(() => {
             setMsgStyle('fail')
             setMessage(null)
           }, 5000)
-          setPersons(persons.filter(p => p.id !== id))
+          //setPersons(persons.filter(p => p.id !== id))
         })
       }
-  }
-
-  //Handle adding a name to form
-  const handleAddName = (event) => {
-    setNewName(event.target.value);
-  }
-  
-  //Handle adding new number to person
-  const handleAddNumber = (event) => {
-    setNewNumber(event.target.value);
-  }
-
-  const handleFilter = (event) => {
-    setNewFilter(event.target.value);
+      setNewName('');
+      setNewNumber('');
   }
 
   //person array with filter restrictions (if any)
