@@ -1,0 +1,39 @@
+POST http://localhost:8080/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Test",
+    "author": "Goku",
+    "url": "example.com",
+    "likes": 3
+}
+###
+POST http://localhost:8080/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Test 2",
+    "author": "Vegeta",
+    "url": "example.com",
+    "likes": 5
+}
+###
+POST http://localhost:8080/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Test 3",
+    "author": "Gohan",
+    "url": "example.com",
+    "likes": 9
+}
+###
+POST http://localhost:8080/api/blogs/ HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Test 4",
+    "author": "Bulma",
+    "url": "example.com",
+    "likes": 8
+}
