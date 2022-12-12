@@ -15,7 +15,27 @@ const totalLikes = (blogs) => {
     ? 0
     : blogs.reduce(reducer, 0)
 }
+
+const favouriteBlog = (blogs) => {
+  let mostLikedBlog = null
+  let mostLikes = 0
+
+  // Loop through each blog in the list
+  for (const blog of blogs) {
+    // Check if the current blog has more likes than the current most liked blog
+    if (blog.likes > mostLikes) {
+      mostLikedBlog = {
+        title: blog.title,
+        author: blog.author,
+        likes: blog.likes
+      }
+      mostLikes = blog.likes
+    }
+  }
+
+  return mostLikedBlog
+}
   
 module.exports = {
-  dummy, totalLikes
+  dummy, totalLikes, favouriteBlog
 }
