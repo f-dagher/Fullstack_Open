@@ -31,3 +31,41 @@ describe('total likes', () => {
     expect(result).toBe(36)
   })
 })
+
+describe('favourite blog', () => {
+  const emptyList = []
+  const listWithOneBlog = blogLists.listWithOneBlog
+  const listWithManyBlogs = blogLists.listWithManyBlogs
+
+  //test if empty list is 0
+  test('of empty list is null', () => {
+    const result = listHelper.favouriteBlog(emptyList)
+    expect(result).toEqual(
+      null
+    )
+  })
+
+  //test if list of single blog is the favourite
+  test('when list has only one blog, the favourite blog is that', () => {
+    const result = listHelper.favouriteBlog(listWithOneBlog)
+    expect(result).toEqual(
+      {
+        title: 'Go To Statement Considered Harmful',
+        author: 'Edsger W. Dijkstra',
+        likes: 5
+      }
+    )
+  })
+
+  //test many blogs
+  test('of a bigger list is right', () => {
+    const result = listHelper.favouriteBlog(listWithManyBlogs)
+    expect(result).toEqual(
+      {
+        title: 'Canonical string reduction',
+        author: 'Edsger W. Dijkstra',
+        likes: 12
+      }
+    )
+  })
+})
