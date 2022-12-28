@@ -56,3 +56,5 @@ content-type: application/json
     "url": "example.com",
     "likes": 12
 }
+###
+DELETE  http://localhost:8080/api/blogs/63aa9b7c0709812b0c139e32
