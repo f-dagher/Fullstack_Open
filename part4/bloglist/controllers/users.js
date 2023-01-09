@@ -16,6 +16,11 @@ usersRouter.post('/', async (request, response) => {
       error: 'username must be unique'
     })
   }
+  if (!password){
+    return response.status(400).json({
+      error: 'password is required'
+    })
+  }
 
   if (password.length < 3){
     return response.status(400).json({

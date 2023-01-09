@@ -1,3 +1,4 @@
+const config = require('../utils/config')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -7,8 +8,12 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const helper = require('./api_test_helper')
 
+const mongoUrl = config.MONGODB_URI
 
 beforeEach(async () => {
+  //was causing error withotut
+  await mongoose.connect(mongoUrl)
+
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
 }, 100000)
@@ -157,6 +162,8 @@ describe ('updating a blog', () => {
     expect(likes).toContain(9)
   })
 })
+
+
 
 
 afterAll(() => {
