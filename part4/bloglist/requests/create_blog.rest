@@ -5,7 +5,8 @@ content-type: application/json
     "title": "Test",
     "author": "Goku",
     "url": "example.com",
-    "likes": 3
+    "likes": 3,
+    "userId": "63b9144d51e913c5ae20c8f3"
 }
 ###
 POST http://localhost:8080/api/blogs/ HTTP/1.1
@@ -15,7 +16,8 @@ content-type: application/json
     "title": "Test 2",
     "author": "Vegeta",
     "url": "example.com",
-    "likes": 5
+    "likes": 5,
+    "userId": "63bd14698e3ffb69bcf0cfe2"
 }
 ###
 POST http://localhost:8080/api/blogs/ HTTP/1.1
@@ -25,7 +27,8 @@ content-type: application/json
     "title": "Test 3",
     "author": "Gohan",
     "url": "example.com",
-    "likes": 9
+    "likes": 9,
+    "userId":"63b91343e1077262b90497ea"
 }
 ###
 POST http://localhost:8080/api/blogs/ HTTP/1.1
@@ -57,4 +60,4 @@ content-type: application/json
     "likes": 12
 }
 ###
-DELETE  http://localhost:8080/api/blogs/63aa9b7c0709812b0c139e32
+DELETE  http://localhost:8080/api/blogs/63bd12f4b635042e554ee656
