@@ -1,3 +1,5 @@
+GET http://localhost:8080/api/blogs/
+###
 POST http://localhost:8080/api/blogs/ HTTP/1.1
 content-type: application/json
 
@@ -11,16 +13,27 @@ content-type: application/json
 ###
 POST http://localhost:8080/api/blogs/
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzYmQxNDY5OGUzZmZiNjliY2YwY2ZlMiIsImlhdCI6MTY3MzQyMzAwOH0.hGnaqZQEQR_jmvqPh6s2bwZr9BiVqg7SZsOkXJxjv2E
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzYmQxNDY5OGUzZmZiNjliY2YwY2ZlMiIsImlhdCI6MTY3MzUwNjg3N30.XLWLtixlDqByhRerj2gfBi6T_sMHqIhVIRSt2l5YnMI
 
 {
-    "title": "Authorizing a token with middleware",
+    "title": "posting a blog with userExtractor middleware",
     "author": "Goten",
     "url": "example.com",
-    "likes": 8
+    "likes": 45
 }
 ###
-DELETE  http://localhost:8080/api/blogs/63bd15990fcfa194a8df4095
+PUT http://localhost:8080/api/blogs/63bfb6c55ce5312c5a734509
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI2M2I5MTQ0ZDUxZTkxM2M1YWUyMGM4ZjMiLCJpYXQiOjE2NzM1MDg4MDV9.1mX6zBarVoSfkJKyS7iOElkW94E9nfzPLCto8lxmWPI
+
+{
+    "title": "updating a blog with userExtractor middleware, with wrong user",
+    "author": "Goten",
+    "url": "example.com",
+    "likes": 33
+}
+###
+DELETE  http://localhost:8080/api/blogs/63bfb38c48ff2b41223eb371
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzYmQxNDY5OGUzZmZiNjliY2YwY2ZlMiIsImlhdCI6MTY3MzUwNDUxMH0.LcVA75R2AH8KAqL3vHawTSH_OZ2FRsjvg53EFAU-BXc
 ###
 POST http://localhost:8080/api/blogs/ HTTP/1.1

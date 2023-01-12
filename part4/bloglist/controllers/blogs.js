@@ -1,8 +1,11 @@
 const blogsRouter = require('express').Router()
-const jwt = require('jsonwebtoken')
+//const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
 
 const Blog = require('../models/blog')
-const User = require('../models/user')
+//const User = require('../models/user')
+
+const userExtractor = middleware.userExtractor
 
 
 blogsRouter.get('/', async(request, response) => {
@@ -22,16 +25,10 @@ blogsRouter.get('/:id', async (request, response) => {
   }
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', userExtractor, async (request, response) => {
   const body = request.body
-
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-  const user = await User.findById(decodedToken.id)
+  const user = await request.user
   
-
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -47,14 +44,13 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-
+blogsRouter.delete('/:id', userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
-  const user = await User.findById(decodedToken.id)
+  const user = await request.user
+
+  if(!blog){
+    response.status(404).json({ error: 'no blog found to delete'})
+  }
 
   if (blog.user.toString() === user.id.toString()){
     await Blog.findByIdAndRemove(request.params.id)
@@ -65,19 +61,27 @@ blogsRouter.delete('/:id', async (request, response) => {
   }
 })
 
-blogsRouter.put('/:id', async (request, response) => {
+blogsRouter.put('/:id', userExtractor, async (request, response) => {
   const body = request.body
-  //const blog = await Blog.findById(request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  const user = await request.user
 
-  const blog = {
+  const newBlog = {
     title: body.title,
     author: body.author,
     url: body.url,
     likes: body.likes
   }
+
+  if (blog.user.toString() === user.id.toString()){
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newBlog, { new: true })
+    response.json(updatedBlog)
+  }
+  else{
+    response.status(401).json({ error: 'unauthorized user, no permissions'})
+  }
   
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.json(updatedBlog)
+
 })
 
 module.exports = blogsRouter
