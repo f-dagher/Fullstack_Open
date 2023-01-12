@@ -20,6 +20,9 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb
     "likes": 8
 }
 ###
+DELETE  http://localhost:8080/api/blogs/63bd15990fcfa194a8df4095
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYzYmQxNDY5OGUzZmZiNjliY2YwY2ZlMiIsImlhdCI6MTY3MzUwNDUxMH0.LcVA75R2AH8KAqL3vHawTSH_OZ2FRsjvg53EFAU-BXc
+###
 POST http://localhost:8080/api/blogs/ HTTP/1.1
 content-type: application/json
 
@@ -71,4 +74,5 @@ content-type: application/json
     "likes": 12
 }
 ###
-DELETE  http://localhost:8080/api/blogs/63bd12f4b635042e554ee656
+DELETE  http://localhost:8080/api/blogs/63bd15990fcfa194a8df4095
+Authorization: bearer 
