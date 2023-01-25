@@ -8,7 +8,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: ''})
   const [showAll, setShowAll] = useState(true)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [msgStyle, setMsgStyle] = useState(null)
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -41,17 +42,30 @@ const App = () => {
       ) 
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setMessage(`${user.name} logged in`)
+      setMsgStyle('sucess')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
+      }, 5000)
+    } catch (exception) {
+      setMessage('wrong credentials')
+      setMsgStyle('fail')
+      setTimeout(() => {
+        setMessage(null)
+        setMsgStyle(null)
       }, 5000)
     }
   }
 
   const handleLogout = () => {
+    setMessage(`${user.name} logged out`)
+    setMsgStyle('sucess')
     window.localStorage.clear()
     setUser(null)
+    setTimeout(() => {
+      setMessage(null)
+      setMsgStyle(null)
+    }, 5000)
   }
 
   const addBlog = (event) => {
@@ -61,6 +75,15 @@ const App = () => {
       author: newBlog.author,
       url: newBlog.url,
     }
+    if(!blogObject.title || !blogObject.author || !blogObject.url){
+      setMessage('Missing fields')
+      setMsgStyle('fail')
+      setTimeout(() => {
+        setMessage(null)
+        setMsgStyle(null)
+      }, 5000)
+    }
+    else {
 
     blogService
       .create(blogObject)
@@ -68,6 +91,13 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         setNewBlog({ title: '', author: '', url: ''})
       })
+      setMessage(`A new blog: ${newBlog.title} by ${newBlog.author} is added`)
+      setMsgStyle('sucess')
+      setTimeout(() => {
+        setMessage(null)
+        setMsgStyle(null)
+      }, 5000)
+    }
   }
 
   
@@ -152,7 +182,7 @@ const App = () => {
     return (
       <div>
         <h1>Blogs</h1>
-        <Notification message={errorMessage} />
+        <Notification message={message} msgStyle={msgStyle} />
         {user === null ?
           loginForm() :
           <div>
