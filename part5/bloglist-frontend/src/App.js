@@ -88,6 +88,19 @@ const App = () => {
       }, 5000)
   }
 
+  const addLikes = (id, blogObject) => {
+    blogService
+      .update(id, blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+        setMsgStyle('sucess');
+        setMessage(`You liked a blog!`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      })
+  }
+
   const blogsToShow = blogs.filter(blog => blog.title)
   
     return (
@@ -114,6 +127,7 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
+                addLikes={addLikes}
               />
             )}
           </div>
