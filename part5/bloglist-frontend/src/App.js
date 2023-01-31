@@ -101,7 +101,10 @@ const App = () => {
       })
   }
 
-  const blogsToShow = blogs.filter(blog => blog.title)
+  const blogsToShow = 
+    blogs
+    .filter(blog => blog.title)
+    .sort((a, b) => b.likes - a.likes)
   
     return (
       <div>
