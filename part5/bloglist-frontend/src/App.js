@@ -101,6 +101,31 @@ const App = () => {
       })
   }
 
+  const removeBlog = (id, blogObject) => {
+    if(window.confirm(`Remove blog '${blogObject.title}'?`)) {    
+      blogService
+        .remove(id)
+        .then(() => {
+          setMsgStyle('sucess');
+          setMessage( `Removed ${blogObject.title}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          setBlogs(blogs.filter(b => b.id !== id))
+        })
+        .catch(error => {
+          setMsgStyle('fail')
+          setMessage(
+            error.response.data.error
+          )
+          setTimeout(() => {
+            setMsgStyle(null)
+            setMessage(null)
+          }, 5000)
+        }) 
+    }
+  }
+
   const blogsToShow = 
     blogs
     .filter(blog => blog.title)
@@ -130,7 +155,9 @@ const App = () => {
               <Blog
                 key={blog.id}
                 blog={blog}
+                user={user}
                 addLikes={addLikes}
+                removeBlog={removeBlog}
               />
             )}
           </div>
