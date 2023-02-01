@@ -41,12 +41,12 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
           </div>
           <div>{blog.user.username}</div>
           {user.username === blog.user.username &&
-            <div> 
+            <div>
               <button onClick={handleRemove}> remove </button>
             </div>
           }
         </div>
       }
-  </div>
-)}
+    </div>
+  )}
 export default Blog

@@ -17,9 +17,9 @@ const Notification = ({ msgStyle, message }) => {
     padding: 10,
     marginBottom: 10
   }
-  
+
   if (message === null){
-    return null;
+    return null
   }
   if (msgStyle ==='sucess'){
     return(
@@ -31,6 +31,6 @@ const Notification = ({ msgStyle, message }) => {
       <div style={failStyle}> {message} </div>
     )
   }
-  }
+}
 
 export default Notification

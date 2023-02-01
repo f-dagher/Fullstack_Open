@@ -11,14 +11,14 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [message, setMessage] = useState(null)
   const [msgStyle, setMsgStyle] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const App = () => {
       blogService.setToken(user.token)
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       setUsername('')
       setPassword('')
       setMessage(`${user.name} logged in`)
@@ -79,13 +79,13 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
       })
-      console.log('added')
-      setMessage(`A new blog: ${blogObject.title} by ${blogObject.author} is added`)
-      setMsgStyle('sucess')
-      setTimeout(() => {
-        setMessage(null)
-        setMsgStyle(null)
-      }, 5000)
+    console.log('added')
+    setMessage(`A new blog: ${blogObject.title} by ${blogObject.author} is added`)
+    setMsgStyle('sucess')
+    setTimeout(() => {
+      setMessage(null)
+      setMsgStyle(null)
+    }, 5000)
   }
 
   const addLikes = (id, blogObject) => {
@@ -93,8 +93,8 @@ const App = () => {
       .update(id, blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-        setMsgStyle('sucess');
-        setMessage(`You liked a blog!`)
+        setMsgStyle('sucess')
+        setMessage('You liked a blog!')
         setTimeout(() => {
           setMessage(null)
         }, 5000)
@@ -102,11 +102,11 @@ const App = () => {
   }
 
   const removeBlog = (id, blogObject) => {
-    if(window.confirm(`Remove blog '${blogObject.title}'?`)) {    
+    if(window.confirm(`Remove blog '${blogObject.title}'?`)) {
       blogService
         .remove(id)
         .then(() => {
-          setMsgStyle('sucess');
+          setMsgStyle('sucess')
           setMessage( `Removed ${blogObject.title}`)
           setTimeout(() => {
             setMessage(null)
@@ -122,54 +122,54 @@ const App = () => {
             setMsgStyle(null)
             setMessage(null)
           }, 5000)
-        }) 
+        })
     }
   }
 
-  const blogsToShow = 
+  const blogsToShow =
     blogs
-    .filter(blog => blog.title)
-    .sort((a, b) => b.likes - a.likes)
-  
-    return (
-      <div>
-        <h1>Blogs</h1>
-        <Notification message={message} msgStyle={msgStyle} />
-        {user === null ?
-          <LoginForm 
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          /> :
-          <div>
-            <p>
-              {user.name} logged in 
-              <button onClick={handleLogout}>logout</button>
-            </p>
-            <Togglable buttonLabel="new blog" ref={blogFormRef}>
-              <BlogForm createBlog={addBlog} />
-            </Togglable>
-            {blogsToShow.map(blog => 
-              <Blog
-                key={blog.id}
-                blog={blog}
-                user={user}
-                addLikes={addLikes}
-                removeBlog={removeBlog}
-              />
-            )}
-          </div>
-        }
-      </div>
-    )
+      .filter(blog => blog.title)
+      .sort((a, b) => b.likes - a.likes)
+
+  return (
+    <div>
+      <h1>Blogs</h1>
+      <Notification message={message} msgStyle={msgStyle} />
+      {user === null ?
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        /> :
+        <div>
+          <p>
+            {user.name} logged in
+            <button onClick={handleLogout}>logout</button>
+          </p>
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <BlogForm createBlog={addBlog} />
+          </Togglable>
+          {blogsToShow.map(blog =>
+            <Blog
+              key={blog.id}
+              blog={blog}
+              user={user}
+              addLikes={addLikes}
+              removeBlog={removeBlog}
+            />
+          )}
+        </div>
+      }
+    </div>
+  )
 }
 
 export default App
 
 /*
-Used for testing  
+Used for testing
 
   if(!blogObject.title || !blogObject.author || !blogObject.url){
       setMessage('Missing fields')
