@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import Blog from './Blog'
 
@@ -18,9 +19,14 @@ describe('<Blog />', () => {
     }
   }
 
+  const loggedInUser = {
+    username: 'admin',
+    name: 'Admin'
+  }
+
   beforeEach(() => {
     container = render(
-      <Blog blog={blog}/>
+      <Blog blog={blog} user={loggedInUser}/>
     ).container
   })
 
@@ -29,5 +35,21 @@ describe('<Blog />', () => {
     expect(div).toHaveTextContent(blog.title)
     expect(div).toHaveTextContent(blog.author)
     expect(div).not.toHaveClass('expanded-view')
+  })
+
+  test('after clicking the button, URL and likes are shown too', async() => {
+    const user = userEvent.setup()
+    const button = container.querySelector('.view')
+    await user.click(button)
+
+    const div = container.querySelector('.blog')
+    const buttonElement = screen.getByText('hide')
+    const expandedDiv = container.querySelector('.expanded-view')
+    expect(div).toHaveTextContent(blog.title)
+    expect(div).toHaveTextContent(blog.author)
+    expect(div).toHaveTextContent(blog.url)
+    expect(div).toHaveTextContent(blog.likes)
+    expect(expandedDiv).toBeInTheDocument()
+    expect(buttonElement).toBeDefined
   })
 })

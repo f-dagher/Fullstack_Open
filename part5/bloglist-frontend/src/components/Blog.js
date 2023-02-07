@@ -30,7 +30,7 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
       <div className='default-view'>
         {blog.title} {blog.author}
       </div>
-      <button onClick={toggleVisibility}> {visible? 'hide' : 'view'} </button>
+      <button onClick={toggleVisibility} className={'view'}> {visible? 'hide' : 'view'} </button>
       {visible &&
         <div className='expanded-view'>
           <div className='url'>{blog.url}</div>
