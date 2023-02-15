@@ -5,6 +5,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
     },
     baseUrl: 'http://localhost:3000',
+    video: false
   },
   env: {
     BACKEND: 'http://localhost:8080/api'

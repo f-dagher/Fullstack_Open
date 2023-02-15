@@ -2,10 +2,41 @@ describe('Blog app', function() {
   beforeEach(function() {
     //using 8080 as port for backend
     cy.request('POST', `${Cypress.env('BACKEND')}/testing/reset`)
+    const user = {
+      name: 'Son Goku',
+      username: 'goku',
+      password: '9001'
+    }
+    cy.request('POST', `${Cypress.env('BACKEND')}/users/`, user)
     cy.visit('')
   })
 
   it('Login form is shown', function() {
-    cy.contains('login')
+    cy.contains('Login')
+  })
+
+  describe('Login',function() {
+    it('succeeds with correct credentials', function() {
+      cy.contains('login').click()
+      cy.get('#username').type('goku')
+      cy.get('#password').type('9001')
+      cy.get('#login-button').click()
+
+      cy.contains('Son Goku logged in')
+    })
+
+    it('fails with wrong credentials', function() {
+      cy.contains('login').click()
+      cy.get('#username').type('wrong')
+      cy.get('#password').type('wrong')
+      cy.get('#login-button').click()
+
+      cy.get('.error')
+        .should('contain', 'wrong credentials')
+        .and('have.css', 'color', 'rgb(255, 0, 0)')
+        .and('have.css', 'border-style', 'solid')
+
+      cy.get('html').should('not.contain', 'Son Goku logged in')
+    })
   })
 })
