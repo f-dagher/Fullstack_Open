@@ -143,7 +143,7 @@ const App = () => {
           handlePasswordChange={({ target }) => setPassword(target.value)}
           handleSubmit={handleLogin}
         /> :
-        <div>
+        <div id='bloglist'>
           <p>
             {user.name} logged in
             <button onClick={handleLogout}>logout</button>

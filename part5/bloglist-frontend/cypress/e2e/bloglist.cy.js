@@ -80,6 +80,14 @@ describe('Blog app', function() {
             likes: 11
           }
         )
+        cy.createBlog(
+          {
+            title: 'Cypress by Goku',
+            author: 'Goku',
+            url: 'example.com',
+            likes: 44
+          }
+        )
       })
 
       it('one of those can be liked', function () {
@@ -87,6 +95,22 @@ describe('Blog app', function() {
         cy.get('@view').click()
         cy.contains('like').click()
         cy.contains(9)
+      })
+
+      it('one of those can be deleted by the user', function () {
+        cy.contains('Cypress by Goku').parent().find('button').as('view')
+        cy.get('@view').click()
+        cy.contains('remove').click()
+        //success is spelt wrong and so success is used instead
+        cy.get('.sucess')
+          .should('contain', 'Removed Cypress by Goku')
+          .and('have.css', 'color', 'rgb(0, 128, 0)')
+          .and('have.css', 'border-style', 'solid')
+        //cy.wait(5000) - need to wait if using html
+        cy.get('#bloglist').should('not.contain', 'Cypress by Goku')
+        cy.get('#bloglist').should('contain', 'Cypress by Gohan')
+        cy.get('#bloglist').should('contain', 'Cypress by ChiChi')
+        cy.get('#bloglist').should('contain', 'Cypress by Goten')
       })
     })
   })
