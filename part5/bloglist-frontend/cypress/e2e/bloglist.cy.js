@@ -39,4 +39,19 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'Son Goku logged in')
     })
   })
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'goku', password: '9001' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.get('#title-input').type('a blog created by cypress')
+      cy.get('#author-input').type('Cpyress Author')
+      cy.get('#url-input').type('example.com')
+      cy.contains('save').click()
+      cy.contains('a blog created by cypress')
+      cy.contains('Cpyress Author')
+    })
+  })
 })
