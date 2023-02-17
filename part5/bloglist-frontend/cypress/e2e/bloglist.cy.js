@@ -7,7 +7,13 @@ describe('Blog app', function() {
       username: 'goku',
       password: '9001'
     }
+    const newUser = {
+      name: 'Test',
+      username: 'test',
+      password: 'test'
+    }
     cy.request('POST', `${Cypress.env('BACKEND')}/users/`, user)
+    cy.request('POST', `${Cypress.env('BACKEND')}/users/`, newUser)
     cy.visit('')
   })
 
@@ -111,6 +117,15 @@ describe('Blog app', function() {
         cy.get('#bloglist').should('contain', 'Cypress by Gohan')
         cy.get('#bloglist').should('contain', 'Cypress by ChiChi')
         cy.get('#bloglist').should('contain', 'Cypress by Goten')
+      })
+      it('a different user cannot see the delete button', function () {
+        //logout user and login as different user
+        cy.contains('logout').click()
+        cy.login({ username: 'test', password: 'test' })
+        cy.contains('Cypress by Goku').parent().find('button').as('view')
+        cy.get('@view').click()
+
+        cy.should('not.contain', 'remove')
       })
     })
   })
