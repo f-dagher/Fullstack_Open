@@ -118,6 +118,7 @@ describe('Blog app', function() {
         cy.get('#bloglist').should('contain', 'Cypress by ChiChi')
         cy.get('#bloglist').should('contain', 'Cypress by Goten')
       })
+
       it('a different user cannot see the delete button', function () {
         //logout user and login as different user
         cy.contains('logout').click()
@@ -126,6 +127,23 @@ describe('Blog app', function() {
         cy.get('@view').click()
 
         cy.should('not.contain', 'remove')
+      })
+
+      it('blogs are ordered from greatest to least', function () {
+        //like a blog so the order changes to see if it is ordered correctly
+        cy.contains('Cypress by Goten').parent().find('button').as('view')
+        cy.get('@view').click()
+
+        //find like button for blog and click it 4 times
+        for (let i = 0; i < 4; i++){
+          cy.get('.like').click()
+          cy.wait(500)
+        }
+
+        cy.get('.blog').eq(0).should('contain', 'Cypress by Goku')
+        cy.get('.blog').eq(1).should('contain', 'Cypress by Goten')
+        cy.get('.blog').eq(2).should('contain', 'Cypress by ChiChi')
+        cy.get('.blog').eq(3).should('contain', 'Cypress by Gohan')
       })
     })
   })
