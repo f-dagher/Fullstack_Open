@@ -18,11 +18,7 @@ const anecdoteSlice = createSlice({
   reducers: {
     createAnecdote(state, action) {
       const newAnecdote = action.payload
-      state.push({
-        content: newAnecdote,
-        id: getId(),
-        votes: 0
-      })
+      state.push(newAnecdote)
     },
     changeVote(state, action) {
       const id = action.payload
