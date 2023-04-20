@@ -14,13 +14,18 @@ const AnecdoteForm = () => {
     }, delay)
   }
 
-
   const queryClient = useQueryClient()
 
   const newAnecdoteMutation = useMutation(createAnecdote, {
     onSuccess: (newAnecdote) => {
       const anecdotes = queryClient.getQueryData('anecdotes')
       queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+    },
+    onError: () => {
+      dispatch({type: 'SHOW', message: 'too short, anecdote must have length of 5 or more'})
+      setTimeout(() => {
+        dispatch({type: 'CLEAR'})
+      }, 5000)
     }
   })
 
